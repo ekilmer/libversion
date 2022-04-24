@@ -1,4 +1,14 @@
-add_executable(version_compare version_compare.c)
-target_link_libraries(version_compare libversion)
-set_target_properties(version_compare PROPERTIES COMPILE_DEFINITIONS LIBVERSION_NO_DEPRECATED)
-install(TARGETS version_compare RUNTIME DESTINATION bin)
+add_executable(libversion_version_compare version_compare.c)
+target_link_libraries(libversion_version_compare PRIVATE libversion::libversion)
+target_compile_definitions(libversion_version_compare PRIVATE LIBVERSION_NO_DEPRECATED)
+target_compile_features(libversion_version_compare PUBLIC c_std_99)
+set_target_properties(
+	libversion_version_compare PROPERTIES
+	OUTPUT_NAME version_compare
+)
+
+install(
+	TARGETS libversion_version_compare
+	RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+	COMPONENT libversion_Utilities
+)

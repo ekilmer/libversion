@@ -1,19 +1,29 @@
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.12)
 
-# meta
-project(libversion VERSION 3.0.1)
+project(libversion
+	VERSION 3.0.1
+	DESCRIPTION "Advanced version string comparison library"
+	HOMEPAGE_URL "https://github.com/repology/libversion"
+	LANGUAGES C
+)
 
-set(PKGCONFIGDIR lib/pkgconfig CACHE STRING "directory where to install pkg-config files")
-if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD" OR CMAKE_SYSTEM_NAME MATCHES "DragonFly")
-	SET(PKGCONFIGDIR libdata/pkgconfig)
-endif()
+include(cmake/project-is-top-level.cmake)
+
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
 
 # subdirs
-enable_testing()
 
+# Main library
 add_subdirectory(libversion)
-add_subdirectory(tests)
 
+# Utility tools
 if(UNIX)
 	add_subdirectory(utils)
+endif()
+
+# Tests
+include(CTest)
+if(BUILD_TESTING)
+	add_subdirectory(tests)
 endif()

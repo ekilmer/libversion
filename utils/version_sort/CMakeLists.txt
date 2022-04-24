@@ -1,8 +1,14 @@
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED YES)
-set(CMAKE_CXX_EXTENSIONS NO)
+add_executable(libversion_version_sort version_sort.cc)
+target_link_libraries(libversion_version_sort PRIVATE libversion::libversion)
+target_compile_definitions(libversion_version_sort PRIVATE LIBVERSION_NO_DEPRECATED)
+set_target_properties(
+	libversion_version_sort PROPERTIES
+	OUTPUT_NAME version_sort
+)
+target_compile_features(libversion_version_sort PRIVATE cxx_std_11)
 
-add_executable(version_sort version_sort.cc)
-target_link_libraries(version_sort libversion)
-set_target_properties(version_sort PROPERTIES COMPILE_DEFINITIONS LIBVERSION_NO_DEPRECATED)
-install(TARGETS version_sort RUNTIME DESTINATION bin)
+install(
+	TARGETS libversion_version_sort
+	RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+	COMPONENT libversion_Utilities
+)
